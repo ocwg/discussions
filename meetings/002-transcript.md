@@ -1,7 +1,5 @@
 # Meeting 2 Transcript
 
----
-
 date: 16 April 2024
 
 Let me go.  So,  uh, let's see.  So, yeah, I'll, I'll go through that again. We have, uh, the discussion that Chris started on,  uh, GitHub around what we actually mean by interoperability. We have, um,  some questions around what the needs are for this spec for the kind of, like, non whiteboard canvas tools, for lack of a better word.
