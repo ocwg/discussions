@@ -1,0 +1,470 @@
+cloud. Okay, welcome to Open Canvas Working Group meeting number three.
+For those of you who are watching the recording, just a reminder, this is a group of enthusiasts
+and canvas makers, canvas users, and that kind of stuff that are working towards an interoperable
+format that would ideally allow different canvases to interoperate spanning from,
+as we talked about last time in meeting number two, this spectrum of visual canvases,
+which you might think of like a Miro or a TL draw or an Excala draw, where the primary
+information is encoded in terms of the visual fidelity, all the way to structural canvases,
+where the main thing that's encoded is the relationships between notes.
+And those tools, yeah, so we're looking for something that kind of spans the middle ground.
+I dropped an image in the chat that kind of represents that that Orion and I were thinking
+about last time Orion actually drew this image. There's a link to where it's from. It's from the
+recap of meeting number two, which you can find on GitHub. Probably the best place to engage
+beyond the Discord would be the GitHub repo, github.com. There's a discussions repo in there
+where we encourage people as they're thinking through any of these aspects to please create
+and respond to discussions, because that helps us move beyond the ephemeral closed nature of chat
+and the high bandwidth, but low searchability of things like this meeting
+and capture it into a document that we can respond to. So that's kind of a quick overview.
+In terms of agenda for this week, Orion and I were syncing just before this,
+and last week we had a bunch of things to get through. There's not as much activity on the
+discussions in the last two weeks, so there's a couple things we could potentially work on today
+that the sort of the major effort right now is around getting to basically what we're
+like in quotation marks calling JSON Canvas 2.0. So JSON Canvas Obsidian, if you've seen their
+format, that sort of them publishing that was sort of the inspiration for this group of what
+if we could start with the JSON Canvas format or start with something that looks like it,
+something it's file base, something it's fairly minimal, and then we could extend that so that
+it supports a broader range of different Canvas types going beyond what, because the JSON Canvas
+spec is really very focused around Obsidian's very limited sort of functionality within their
+Canvas, and it's like fit to purpose to their tool. Could we expand that so that we have a
+format that's general across a broader range of tools? What we've been thinking about for
+JSON Canvas 2.0 is a couple of major changes that we discussed last time, and so one thing we
+could do today, thank you, Drigen, for posting that link in the chat, what we could do today is
+talk about some of the specific changes that we think might go into a JSON Canvas 2.0
+and how we would make that extensible, that kind of thing, and then if there are topics that you
+guys have that you'd like to talk about, we could also go from there. So that's our tentative agenda
+for the day. Orion, have you made it back to a computer spot? I know you were looking for a
+spot to be able to sit and open. I haven't quite yet. I should be in about 10 minutes.
+I'm just waiting to be able to drop off my very oversized bag in the airport here.
+Gotcha. No problem. Sounds good. Well, in that case, Orion had a little, he and I talked last week
+about a tentative JSON Canvas 2.0 spec, a tentative minimal spec, and we were talking
+about how we might handle versions and make it extensible. So I'm going to give Orion 10 minutes
+to see if he can maybe share his screen. If not, I can share mine and go on. So we'll flip the
+agenda and I'll instead see if anybody's coming with specific questions or concerns or things that
+they read on through the discussions that they want to talk through, and then we'll go to kind of
+talking about the minimal spec second that works for you guys. So this is the part where if you
+guys have questions, concerns, thoughts, you can jump in. Off the top of my head, one thing that
+I'm really, really curious about, see whether we're going to be able to find a solution for that is
+how do we make actually products and canvases, which are very, very, very different in terms of
+provided capabilities with ways to kind of fall back to other objects or other parts
+which can be consumed in other products, in other parts, like in all of the products that
+will support this file format. I can imagine, for example, having very, very complex objects or
+widgets coming from the mirror space that has lots of plugins, applications, you name it,
+how will we be able to find a common ground in order to make a version of the same object in
+in more minimalistic products so that important content and important information is still
+provided some way without being lost completely.
+Yeah, I think there's two things. Go ahead, Max. Yeah. So I have two views on this. One is you can
+do it like an email where you have like the HTML email and a fallback plaintext content. We could
+do something like that. Or in general, we could say these embedded items on the canvas, they are
+like files. Files has a file type and different apps can render different file types. So
+do you have some kind of app and that recognize, ah, this is just an image, some SVG-ish thing,
+I can render it. This is a mirror-special application. I have no clue. I cannot render it. I just
+render a blue box or maybe the fallback content or nothing. It depends, but there are different
+kinds of content and different capabilities in the apps. That's maybe the reality.
+Yeah. I think in many ways, like this is the major, this is like the most, this is the crux
+of the problem we're trying to solve is how do we make, because it solves it from two directions,
+how do you handle diverse feature sets? So we're going to have non-overlapping features across
+all of these different things. What in general is the solution strategy here? So Max mentioned,
+you know, potentially having, for every time you define an object, you have the opportunity to
+define some fallback as well that is sort of the fallback category is defined by the spec,
+right? So it can be understood that every canvas that supports the spec knows how to
+to like render a fallback container or something like that. That's basically, you know, a broken
+image or whatever. And so then you can, as an, when you're embedding objects, you can always
+embed a, you can optionally embed a fallback container so that it shows up on other canvases.
+If you don't embed one and it doesn't understand it, it's just going to leave it off. So it becomes
+the responsibility of the tool to kind of pepper it with these, to augment all of the objects with
+these fallback containers. And I'm taking some liberty with your first idea, Max. But I think
+the second idea, though your reference to email, the second idea is more around like MIME types.
+And then there, you can think of every object as having a type that is associated with it.
+And then canvases can then support or not support specific types. And then the fallback now is on
+the canvas, right? The fallback is looking at the, at the spec, the, sorry, the canvas that's
+loading the file is looking at the objects and saying, I support that one. I support that one,
+but I don't support that version. So I don't even know that version. And so I'm not going to try and
+load that because that might crash. Because it, you know, I don't, I don't know that version of
+that file type. And then, and that kind of thing. And then it can take responsibility for how to
+handle falling back, right? The, the, I think those are kind of two different ways to do it.
+Orion showed an example where what that we were talking about last week with this sort of file type
+inversion. And so the idea would be that basically every node that's on the, every object that's on
+the canvas would be required to have a file type inversion. And maybe some of these file types would
+be core, like provided by OCWG. And we would like all understand that this is a, this is a shape.
+And a shape has sides and, you know, that kind of stuff. And there's sort of a spec core spec
+defined, but even that core spec could have that shape object file type could be versioned as well.
+So that you can migrate forward and kind of extend the spec. And so this is the other piece.
+So handling diverse functionality is one piece that one framing of this problem. The other
+framing of this problem is extensibility. The thing that's really amazing about email
+is that it was defined before there was even a rich text email type, right? There was plain text
+email and the email spec was written in such a way that you could eventually move to this rich text
+email format. And email clients, if you guys have ever looked at the way that email works,
+right now it sends both the plain text version and the rich text version. Most clients do.
+And then in a plain text context can show that and the rich text context can show that. So the
+viewer can then choose which one it can support. And so we're looking for something similar here
+where we have this minimal format that you start with, but can be extended over time to use cases
+that we had not previously anticipated. Like unexpected use cases is where we would want
+the extensibility model to allow for in the long run.
+Max, I'll read your comment. And maybe you can extend it if you'd like. It says you can even
+mix both. Every item can have a content with a content type and possibly as fallbacks a list
+of more content or content type pairs. It's kind of like a rest resource that has content
+negotiation all serialized in the object itself. That's how the web works. So you have like a
+browser fetching a resource saying I can read these languages. These file types sent me something
+and then you get something back. And that's what we can also do here for serialization. We just
+put like the one or two, three formats that are available in the file. And then the viewer
+decides, okay, do I want to see the SVG or the PNG or the Miro special built in
+whatever I can. So it's all based on existing specs this way. Rest free. So I like this content
+negotiation exists. Mine types exist. So we can just reuse that all. And then it can this is like
+a pre-composed view of resources. And thinking about fallbacks, the conversation is going on and
+also coming a little bit from the accessibility perspective. It would be nice probably to have
+in the fallback if we decide to go in like the way of providing a fallback. Having at least for
+every single object that was thinking something along the lines of what the accessibility tree
+is for the web and for HTML and for the DOM. So being able to at least provide
+something very, very like semantically speaking, very, very basic like a name, a role and
+I can't remember which are the all of the properties right now, but there's about like
+four or five or more than that. That would at least allow even the dumbest of fallbacks to have
+some meaningful information about what's in what was in the original content that can't be rendered
+by the specific canvas. Yeah, that's a great point. The I think one of the things I like about
+the you mentioned file-based interop Stefano earlier is that ideally the file would be
+in a somewhat human readable format, we'll put it that way, of like a human reader could look at
+it and make sense of it, right? It's not binary and it's not as obtuse as XML. But if you look at
+if you look at a obsidian canvas, the JSON canvas format that obsidian saves out right now,
+you can mostly make sense of it. And I actually hand edited the text in a obsidian canvas file on
+disk and then had it reload in obsidian canvas just to see what would happen. I'm like, what
+happens if I change this property? And so I think one goal here is that the ultimate fallback is text,
+right? Of like this file is actually preserved as text which someone could then take in and this
+is more about data preservation than accessibility, Stefano. But yeah, you're right. There's a
+if there's a generally understood shape to all objects, let's say they have a properties bag,
+they have a schema that's associated with them, you may not have the file type and know how to
+display the schema, then you could write basically a presenter that would be very boringly generic
+but would present at least maybe that the plain text properties of the from that
+object on the canvas in some way. So makes sense. Yeah.
+Yeah, let's see.
+Michael asks when you have an infinite canvas, what would the starting point be for something
+like an accessibility tree? When the canvas itself, the board?
+Yeah, when I can imagine if you have a structured diagram, which has a clear starting point,
+that that's quite obvious that that could be the starting point for an accessibility tree or
+a textual representation of canvas. But what if you have a lot of notes that don't have
+connections or just small groups? Well, I can answer to that because we
+pose ourselves the question already. And like the in our case, it's a very, very flat tree.
+Meaning that the root node is always the board, like the canvas itself, it acts as the as the
+main point, the main entry point for the accessibility tree. And then if the content
+is completely flat, so if you've got a bunch of objects just scattered across the board, well,
+it's a tree with as many branches as the objects in just one level. If you've got containers,
+then it gets deeper and deeper and has a structure. In terms of diagramming,
+the way we handle diagramming, we consider like every object is a first class citizen.
+So connectors as well are part like the thing for me, it's like as Jess already told before,
+like me writes mostly on the visual side of things and less on the structural side of things.
+So, of course, users can that have a vision can identify and they can make sense of
+of the visual representation of a diagram. But then the connector lines themselves
+have no they are no special entities, they are just objects as any other object into the into the
+space. And then there are relations between an object and another object. And that's where
+connectors can be bound to other parts. But let's say that there are two overlapping structures.
+One is the accessibility tree of the objects on the board, where every object is one and the same,
+like they're all equal, there are no nodes and edges, and then you can overlay the diagramming
+structure at all. Yeah, I think that makes sense. Go ahead, Michael.
+The order in the accessibility tree, would that be the if you've all this, the old
+Lewis nodes, would that be depending on the place where they are sorted by X and Y position, for
+example, sorted by the moment when you place it on the canvas?
+They are sorted by the order of insertion. And then at navigation time, we try and find a reading
+order sort. So it's actually the visit like the visiting has the smart logic inside, whereas the
+the data structure is completely flat, it's just a list of things.
+Right, unless there are connectors, it's pretty similar. Yeah, it's pretty similar to JSON canvas,
+like here we have two categories, nodes and edges, we have only nodes, and that's it.
+And then it's the application. But you know, Miro knows internally that this node type is really
+a connection, right? You guys just don't store it internally any differently. You store it in your
+your data format, you just represent it as another node type. Everything is an object,
+and then of course, objects have different types. And objects also have the ability to
+assign dependencies to other objects. And this is and this is very, very useful to make the
+connections with diagrams. It also allows us to bulk insert and bulk delete things that are meant
+to be into the same container. Like it's not just like the dependencies are not just apartment
+children relationships, because connectors are not really children of the nodes that they connect,
+because they have two entry points. So you don't want them to be children of one specific object.
+So every every single object can define a list of downwards or upwards dependencies.
+So I didn't want to do that. Sorry. And so you can basically like usually know, like nodes define
+connectors as downward dependencies. So if you delete the node, then you delete the connectors
+as well. And on the opposite side, the connectors list the nodes as upward dependencies.
+Interesting. So it's sort of an it's it's sort of an extended version of parent children relationships
+where any single node can have not only multiple children, but also can have,
+so to speak, multiple parents. They're not really parents, but you know,
+things that are bound to them. Right, references, you know, reference references,
+upward and downward references. Yeah. Interesting. But you distinguish between
+upward and downward internally. Yes. Interesting. Okay, cool. So yeah, I think
+the generalization of that idea would be just a flat map with references, general references
+between objects, where the references between objects could have properties on them.
+And in your case, that that property is an, I don't know if you think of up or down as like
+an outgoing or an incoming edge. I don't know how you like, if I like I now I want to go into
+Miro and like draw an arrow between two boxes. And then have you tell me what actually is happening
+under the under the covers. But my point is the the relationships or the other references between
+objects can have types. Yeah. Yeah, this is something that has been quite a big focus in
+breadcrumbs recently. In the previous version, the semantics of direction were forced on the user.
+You, you told breadcrumbs, which fields you use, which edge types you have a parent child sibling,
+and you were forced to put those under one of the five directions. But based on a suggestion from
+lemons, there are just edge types. Now they have no inherent semantics, but the user is able to
+define those same relations using a rule of transitive closures across parts of edges. And
+that's perhaps stepping away from the point of this, but it's very useful to not enforce any
+semantic on the edge type. Yeah, that's, that's interesting. This, I think this, it's starting
+to occur to me that like the types on edges or the types on relations or references, whatever
+we're going to call them, between objects is going to become another, as they call centralizing point
+when it when you think about interoperability, right? If you if Miro is is saving out they
+and they have a type on the edge, which is, you know, up or down, then a program that's reading
+a file that was saved out by Miro and would need to know what it means by that, right? And I'm
+wondering if like relations themselves need a schema. I hadn't thought I had been thinking about
+objects having a type name and a version. I had not been thinking about the properties on the edges
+themselves having a relationship having a type and a schema, but now it seems kind of obvious.
+Like, of course, you would want a schema there as well. Yeah. So in my, here's a concrete example.
+If a canvas doesn't support edge types, right, it just supports relationships between objects,
+say, Kenopio, for example, I don't think they actually have edge types, they just have, you can
+connect different nodes. So it's a much simpler interface. If they're opening a Miro file through
+this, then they would, they would see that these two objects are related with an edge, one with an
+up, one with a down, and they would just ignore that. They would say like, well, all we care about
+is that these two objects are related. And so we'll draw a relationship between those two things
+and represent that in Kenopio. But in terms of the schema, we just don't know what up or down means,
+and we don't care because our application doesn't support that, that difference. And so it can
+safely ignore that type name and not try to present it in any way.
+That makes sense. But yeah, having a schema for relations as well would be very useful.
+A very powerful use case that I've come across recently.
+Are you familiar with Monica, the personal relationship manager? It's like a CRM for human
+relationships. Very cool stuff. But it's quite closed off. And a feature that it's been missing
+for a while is the ability to automatically infer more complex relationships based on the
+simpler ones. For example, your parent sibling is your sibling in law. It doesn't have that ability.
+And using this system of transitive chains of edges, you can create completely customizable
+implied relationships. It's really quite powerful and relatively simple as well.
+Very cool. I found a reference for Monica.
+Any other questions, thoughts from?
+I tried to link in the chat, by the way, to discussions that have already happened on
+GitHub that touch on some of these topics. So if you're interested in writing down some of your
+thoughts, reading what other folks that have been on these calls have thought about these
+same things, there's links in the chat, some discussions, posts that have more information.
+Go ahead, Ross. I think you were going to say something.
+It's back on the idea of fallbacks and deciding who's responsible for handling a node.
+I left a comment about dog fooding, how you can open canvas, could develop an API that
+not only gives out to users to implement node handlers, but it uses itself so that the format
+between node handlers is consistent for fallbacks and for plug-in node handlers.
+And then you can decide what the default node handler is, what the fallbacks are,
+is like a sane preference, but a user, someone implementing a canvas, could just
+swap that stack of node handlers as they need.
+Yeah, I'm thinking about that concept. So I think what you're saying is that there would be no
+sort of default object types, everything would be an extension, so to speak.
+Whatever we might call them, schema extension type, I'm not sure, object, I don't know,
+there's a, I'll have to come up with the term here, but I think there aren't any
+default object types or object extent, everything, every object type is provided via an extension.
+Now, some of those extensions might be maintained and distributed under the core OCWG namespace,
+but that's just an implementation detail of where that is distributed by. And then the OCWG
+internal, even those core extensions would have the fallback support.
+And that's interesting. I was making a distinction between the object types,
+like how we're representing it in the saved file, for example, versus the node handler,
+the thing that renders the markdown node on the canvas, for example. So I think open canvas
+should have more of a say in the object schema, because that's like a working group kind of thing
+to decide, but then the node handle is these renderers are just like plugins, extensions,
+that you give an order of preference to. I think I understand what you're saying.
+So you're basically saying separate the view from the schema layer, and then you could
+distribute a renderer that knows how to render a specific type, and maybe it's implemented
+as like a web component or like a React functional component so that it can be integrated into specific
+application use cases. Yes, like you might have a markdown node, which just points to a file path,
+but like the GitHub markdown renderer might present it differently from obsidians.
+And so more the points of what I was focusing on is that the implementation, like the plug-in
+system is some open canvas API that you expose, but for the node handle is that you,
+as the working group decides to implement, use the same system so that they're all interoperable.
+Yes, I think that has a lot of advantages. It makes sense.
+Yeah, and oh, Ryan, I noticed Max's comment here that just an observation that we're seeming to
+discuss several three different kinds of structure right now. One is this core structure, which is,
+if I understood that for Max, for you to mean the sort of minimal structure through which you can
+define items and relations. Like having, for example, items having a type name and a version
+would be part of the core structure. And then there would be items and relations are the two
+sort of kinds of things that can be represented. And yeah, and then items and relations, how
+what's the structure of each one of those? Do they also have type names versions?
+Yeah, I think another interesting wrinkle here is how to distribute
+the schemas. Like how to represent and distribute the schemas for these, and forgive me, I'm switching
+back and forth between the word type and schema. For an item type, like for example, if Miro,
+who has a much more robust set of things that you can represent on the canvas, if they wanted to
+export a open canvas file and encode some of the nodes that likely other canvases aren't going to
+be able to represent or have a plugin for, have a renderable way to render it at all, they might
+actually, you know, publish their schemas for those objects under some Miro namespace, right?
+Like Miro slash, you know, this particular thing, and then you can look that up to know
+what the properties are, what the properties mean effectively, what the properties are and
+what they mean for that particular node type. And the, like, how, where is that schema distributed?
+Like is it written into the file itself as in like a schema block? Or is it accessible through
+some service like NPM? That kind of thing is another interesting. Orion says, I have thoughts
+almost through security. I was hoping to trigger you by saying that, Orion. This gets to some of
+the stuff he was talking about last week. Just for the sake of the recording, folks are listening
+along at home. Dragan says, yes, I use a syntax like parent comma sibling points to a sibling in
+law. Yeah, go ahead. I'm replying to Dragan. Yeah, Dragan asked, like, about transitive references.
+Sorry for interrupting. No worries. No, that's okay. I'm aware of the fact that people who are
+listening to the recording won't be able to see the chat. And so when I'm referencing someone in
+the chat, I try to like read their comment and then respond to it. Did you have something you
+wanted to respond or are you going to just respond via chat? It's more pointing out that
+that wasn't Dragan's message. I was responding to Dragan. Oh, I see. Yeah, yeah. Thank you. Yeah.
+Sorry, Ross responding to how the transitive stuff is happening.
+Oh, I see. Yeah.
+Perhaps the chat transcript can be exported and sent along with the recording.
+Yeah, it will be available on GitHub. I think one of the things that's frustrating is the just
+accessibility of presenting both the video and the chat in sync alongside each other. If you do
+something like this through YouTube live stream, you get that functionality for free. If you do
+anything other than that, there is no tool for displaying those two things and keeping them
+in sync, which is ludicrous, but that's the state of online meetings.
+All right, so I'm going to fill a few more minutes until Orion gets through security and he can
+kind of share some of the stuff he was talking about. And what I'll do is kind of wrap up the
+meeting and talk about next steps and then let Orion fill up to the point just looking that we
+have about 16 minutes left. Kind of where we're at at the big picture of the project is
+I have been following a thing called the manifesto for rules for standard makers,
+which is this post from Dave Weiner who was instrumental in RSS podcasting
+several other standards before that XML standards. So he's kind of infamous for
+building standards, writing standards that people actually use in scale. And one of the
+points he makes in that post is the only thing that matters, the only thing that really matters
+for interop is actual pieces of software interopping with each other. Formats or protocols or specs
+don't actually matter. And the point he's making is get real tools interopping with each other as
+fast as possible. And that is what drives real world interoperability. Otherwise, you're just
+talking. And to avoid spending our time just talking, we want to get tools that are working
+together as quickly as possible. We had several folks who are interested in this, both from the
+TL draw team and the Excalidraw team. And those canvases have the enviable quality of possessing
+a very similar feature set. So the overlap between those two canvases is very high. They're also
+open source. And so someone from not the core team could extend those, you know, could provide an
+export or an import for this, for a minimal feature set. So something that Orion has been working on
+has been a minimal interop between Excalidraw and TL draw. And we're just targeting those two
+canvases because we've had people participating from them and they have fairly large established
+user bases. And so if Miro were interested in working on a minimal interop, obviously,
+you guys also have a fairly large established user base. And so that's the way that I'm looking
+at this as an effort is we need to get real tools that have real users doing real interop
+base app. And lest we spend all of our time optimizing. Now, you want to make some good
+decisions around those initial, you know, kind of what feet you put forward. But there's a there's
+a sense in which it almost doesn't matter if you get real tools actually working with interop
+from the beginning, like, you're going to be wrong. And you're going to like paint yourself
+into corners, but try to get real tools using this as quickly as possible. So that's something that
+we're actively working on. We'll hopefully to have something to show two weeks from now.
+And I'm going to kind of help help Orion with some of those steps. And then I think the next
+there's there's work from a concrete instantiation, which is like a Scala draw,
+he'll draw interop. And then the other piece would be writing a minimal spec, and then getting
+feedback on that. So there's been now two weeks last week. And this week, we've had conversations
+around this sort of 2.0 spec. I think my action item between now and two weeks from now is to
+have something written that people can look at that basically encapsulates the ideas that we've
+discussed so far, things around type name and version, things around separating references
+or relations from items that, you know, providing the basic core moving properties into a properties
+bag, like, all of these things are things that we've discussed and have been in discussions
+in GitHub, but we don't have a singular document to poke at and say this is wrong, this is right.
+And so I'll look at getting that spec up and running while Orion works on sort of the TL
+draw Scala draw interop piece. Does anybody else have anything that they would like to
+commit to doing between now and two weeks from now? Not required, but it if you did, I would
+basically write it in the notes as something that that way other people know you're working on it.
+And if they want to have quite they want to ask questions or they want to help, they know who
+to go talk to. Is there a list of things that you know need doing already?
+I think the two that I mentioned seem like the highest priority of like make interop work
+between specific tools would be the would be one of those things and that doesn't have to be and
+that can be any tool to tool interop for now of because we'll learn with each one of those that we
+do. I'll have it done by next week. Which tools? All of them. Joe, all of them. Yes, you're going
+to solve the squared problem. AI is going to help you out here. Perhaps like a list of like
+very concrete I can commit to getting this done by next week like issues on a repo kind
+of thing. Yeah, that would be valuable. Yeah, I think the other one that's helpful I mentioned
+this Stefano in the chat. We do have a spreadsheet that has a basically a column for all these
+different all these different tools and it specifies a bunch of everything from very high level
+thing like what language is this implemented in to very low level things like what is the
+assumed XY start position the XY coordinate and like what are the coordinate directions like these
+are turned out to be really important things when you get into the details of stuff. So
+adding a column for a tool that you're working with whether it's breadcrumbs or
+Miro breadcrumbs it's a little bit different because you're working with a conceptual
+and as opposed to a visual and a lot of the things are visual there but take a look at that
+and add an adding a row there could be something it could be helpful.
+Yeah, I'm trying to compile the Miro one to the best of my abilities.
+And another thing that I could do in the next couple of weeks well myself I unfortunately can't
+do very very much but at least I can get in touch with the integrations and import export team like
+the team that owns importing and exporting and at least make them aware of the initiatives
+if they're not already. And then to actually make something interoperable with Miro either we
+convince them that it's something valuable so to speak like it's an initiative that's worth
+accomplishing but probably even easier would be to wait for the next hackathon.
+Hmm so we do organize hackathons twice a year or three times a year like every now and then
+unfortunately the last one was like two weeks ago three weeks ago so it's going to be I wouldn't
+say a very very long time but a pretty long time until the next one happens but if the next like
+the moment the next hackathon happens so this could be a very very nice hackathon project
+that I could take myself or somebody else could if they're interested into into the thing.
+Yeah that's awesome.
+You're both great. I am out of out of security now so I've been pretty quiet but it's cold.
+Yeah you sound fine Orion I can't hear any background noise.
+All right so I'm quiet and not chiming at all that much.
+Oh okay gotcha. Yeah no that makes sense. In fact you know Orion it might be helpful just
+to do like a quick screen past video recording of what we talked about last time like even like
+a three or four minute video might be helpful and we can always post that to the discord.
+Max I'm glad you brought this up. So Max asks for the tool makers what about SVG as a format
+for data items which render to simple shapes. This was some context here there's a discussion item
+in github about how to represent freehand drawings so there's a TL draw is has this
+thing called perfect freehand that's that was built by Steve who built TL draw as well
+where they you know it's really nice to write on a TL draw canvas that's one of the things that
+that kind of makes it stand out but some like some tools like obsidian so don't support any
+type of freehand support other tools like Miro, TL draw, Excala draw have full freehand sketching
+and so a freehand object is something you would want to be able to optionally present and encode
+and then the question came up how to represent a freehand object and I think one of the suggestions
+for that was SVG. I think Max is actually making a slightly larger suggestion here of saying being
+able to represent arbitrary shapes not just freehand but arbitrary shapes as SVG would allow
+us to leverage an existing format and not have to kind of reinvent the wheel in terms of and we
+would have full arbitrary shape support at that point. We don't we don't even need to support
+all of SVG we could even just define our subset of it which is required and basically if you have
+circle rectangle and path text then you have almost everything you need. If I'm not mistaken
+everything is a path for us because of the rendering and like we render on the canvas
+so the canvas has support for path to D which is very very very similar to the SVG
+definition of a path to D so almost everything that we like that we need to draw in terms of shapes
+almost everything is a path. That's awesome I think it's a great idea or
+it it strikes me Max as a specific example of a type that we could support natively that would
+actually leverage another renderer or another ecosystem entirely which feels really good.
+It's kind of like it would be the same way if we think about text nodes where we would say that
+this text node has a type markdown right a type of markdown it's like we're leveraging the entire
+markdown ecosystem for that that text format you know not all text has to be marked down but when
+you do you get the entire markdown ecosystem along with it and SVG feels like a smart one to pull in.
+The actually the author of the SVG spec works at the W3C I'm trying to remember his name he was
+actually recommended to me as someone that we should get involved with this effort and who
+would be interested in helping out with the effort generally so I'll have to reach back out to him.
+I guess he's had a little bit of experience formalizing specifications having I think he
+had also worked on several other things that I had heard of other than SVG I'm trying to remember
+what they were but. Yeah I think that's one of the interesting things about canvases generally is that
+usually what you're trying to do with canvases is put things on them and those things are usually
+multimedia of some other media type they're other than sort of their edges between objects on the
+canvas which those feel native to the canvas the canvas medium has nodes and edges and that's the
+native thing but what the nodes are is almost always another medium that's being in you know
+placed on the canvas in some ways like a spread a canvas is a meta medium it's a medium that shows
+up the relationships between other media and allows you to put them visualize them in some way.
+I'd be happy to try taking some subset of SVG and including that in the experiments with the
+Excel draw TL draw interrupt because as far as I know both of those should be able to render
+you know SVG paths and stuff the one thing I will say on that which we have talked about before
+is that as a representation of like kind of semantically rich information
+SVG as a format has some challenges because it's it's it's mostly concerned with kind of a series
+of operations that result in some some very specific very precise visual at the end of it
+but if you for example even something as as kind of mundane as like robustly getting hit detection
+for the insides of shapes or like representing that some text is of a certain type like that that
+kind of stuff is isn't isn't really native to that as a as a format but as a as a kind of
+interoperable standards based rendering solution for a subset of things that people do want to put
+on the canvas I think that could be an interesting thing to look at supporting like supporting
+SVG path or SVG string data really in the somewhere in the spec.
+Yeah, that's good.
+Cool. Well we've got about two minutes to wrap up. Orion did you have anything else you wanted to
+throw in? I know you've been going through airport security so I imagine that you'll need to catch
+up on the recording but anything else before we wrap up? Yeah, good question. The timing ended up
+being very poor because my flight was delayed which meant I was going through the airport
+at exactly the time that I didn't want to. I think I'll just reiterate a point that kind of came
+up earlier. I definitely have lots of more specific points about the things that people have said
+which I'll try and put in GitHub but there were some points raised around like how we do the next
+steps and the impact that that has on the trajectory of this as a project and so I think
+having good answers to those questions is really important where we really want to
+make sure that momentum is maintained and kind of make sure that we're treating this not as a
+kind of an interest group which it is as well right we're all here because we're interested in this
+stuff but really making sure that we're driving that towards results in the you know not too
+distant future. I think we said in the first poll shooting for something like
+you know like a six month-ish time frame to have several tools implementing at least a kind of a
+prototype of the spec that we end up with would be a good thing to shoot for and so anything that we
+have that's going to kind of help drive momentum forward I think is important because of course
+we're all doing this with free time and limited resources so at least for my part I'm very happy
+to drive forward the Teal Draw or Scal Draw interop experiments I'd also be happy to pick up more
+of those if other people have tools especially ones that they have deep knowledge of that I can
+ask questions to that massively reduces the burden of work on me and if you don't have time to
+to do that work I'm happy to pick up that interoperability demo challenge.
+Yeah I think one of the ones that would be one of the ones we haven't discussed much
+yet Orion is an interop between a tool that's very much on the structural side of
+thing and like Teal Draw or Scal Draw as the something that's on the other side of the spectrum
+so whether that's property graphs which have been mentioned several times or graph viz or
+something that a more pure xy free structural representation and then how would you map that
+how would you map that to Teal Draw and then reading the two-way interop I feel like that's
+another place where we need to try to span that spectrum as broadly as we can and so we've got
+one interop that is like two tools that are almost in the same spot on the spectrum and it would be
+good to like try and do one that's a little bit further away. Yeah that's that's a good example
+one last thing that I wanted to chime in which came up earlier but I really like the idea of
+having as a suggested full-back mechanism for implementers of Canvas tools that kind of per
+object text view so in the cases where you don't have schema support for something being able to
+see like oh okay I don't actually know how to render this but I can still show you the text of
+just this object and maybe if you wanted to then you could even you know edit that text and be like
+oh well I know that this tool has something has an equivalent of what I'm looking for let me change
+the type name and delete these two fields that don't exist on something you have that kind of
+escape patch mechanism.
+Cool yeah well guys we are two minutes past time and so I'm going to go ahead and call it here
+stop the recording
