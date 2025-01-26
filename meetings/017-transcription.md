@@ -1,8 +1,6 @@
-
-
 Yeah, this is just for those of you who are watching on the recording potentially. This is OCWG meeting number 17, and we were just talking about how we're going to use the time today. Thinking it will start by doing some planning around like what are some next steps for the spec and for other things around the project. So we're going to get our projects for a bit, and then maybe we can actually dive into writing some examples. All right. Max, was your comment—I missed the very beginning of it, but I think I caught the gist of it. Was it in response to Kapanos positions?
 
-Yeah, exactly. Yeah, first I thought interchange and interoperability is more or less the same, but after a while, I realized that there's a very good point. Actually, yeah, to have a common core that everybody agrees on—what really canvas needs to have and needs to understand—that's really the core of the OCF spec. And then being also able to add more data to piggyback it through and around is nice, but the core needs to work in order to have anybody interested in the spec in the first place.
+Yeah, exactly. Yeah, first I thought interchange and interoperability is more or less the same, but after a while, I realized that there's a very good point. Actually, yeah, to have a common core that everybody agrees on—what really canvas needs to have and needs to understand—that's really the core of the OCIF spec. And then being also able to add more data to piggyback it through and around is nice, but the core needs to work in order to have anybody interested in the spec in the first place.
 
 I just looked at the existing issues in the spec repo, and we have this 0.2 versus 0.21 issue. Yeah, we maybe should soon release a 0.3 to clarify that because the two are so different already.
 
@@ -769,25 +767,25 @@ It’s already way more than I’m supporting in CodeFlow currently.
 
 Yeah. It would be interesting—how can you import other stuff that’s defined in core, and you say you claim you implemented it? So how do you import it?
 
-Well, I have to think a bit about it. Also, yeah, with regards to the issue with interchange and interoperability, probably one—I should store a flow in the OKF format itself to keep everything within there. Because if you want to export again to the OKF format and you keep everything, you want to keep everything that you don’t support, then you should store that as well in your system.
+Well, I have to think a bit about it. Also, yeah, with regards to the issue with interchange and interoperability, probably one—I should store a flow in the OCIF format itself to keep everything within there. Because if you want to export again to the OCIF format and you keep everything, you want to keep everything that you don’t support, then you should store that as well in your system.
 
-Probably using the OKF format itself is the best way to do that, I think.
+Probably using the OCIF format itself is the best way to do that, I think.
 
 I agree. I am thinking—are we forcing every implementer to do this exactly? Because it’s almost the only way to do it.
 
-I was also thinking I can store it next to my own format, but still, I need the important data to be able to export it back again to that same—and don’t lose any information. So why not just use OKF itself?
+I was also thinking I can store it next to my own format, but still, I need the important data to be able to export it back again to that same—and don’t lose any information. So why not just use OCIF itself?
 
 You need at least the same nodes. And you need to store JSON bags for them. Then you can use your own database for it or do whatever you want, but yeah.
 
 Yeah, but what about the relations or assets or things that are in there that you don’t—
 
-Same applies. But at least we have an overall ID scheme. They all share the same ID space. So you only need to have the ability to have some map ID to JSON blob. And then you can transparently recreate an OKF file.
+Same applies. But at least we have an overall ID scheme. They all share the same ID space. So you only need to have the ability to have some map ID to JSON blob. And then you can transparently recreate an OCIF file.
 
 Of course, you also need to remember the type of the blob you stored so that you put it back in the right arrays.
 
 Yeah.
 
-Yeah, I think using the OKF format as the storage format is also very nice because you’re just saving in your tool, and I can already open it in another tool even if I forgot to ever do an export.
+Yeah, I think using the OCIF format as the storage format is also very nice because you’re just saving in your tool, and I can already open it in another tool even if I forgot to ever do an export.
 
 Yeah.
 
