@@ -1,5 +1,5 @@
 ### **Discussion Points**
-- **OCHF Spec Draft Review**  
+- **OCIF Spec Draft Review**  
   The group discussed feedback on the 0.3 draft PR, focusing on small adjustments and clarifications. Some minor formatting inconsistencies were noted but were not considered blockers for the draft.
 
 - **Arrow Representation in the Spec**  
