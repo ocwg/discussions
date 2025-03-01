@@ -1,8 +1,4 @@
-Here is the transcript with paragraph breaks added for clarity, assuming different speakers and topic shifts:
-
----
-
-All right, welcome to OCWG meeting number 19, where we're talking about the OCHF spec specification. We were just discussing contributors and authors and kind of clarifying that in this specification. And I think we have a couple of topics to talk about today, and then we can go ahead and get into it.
+All right, welcome to OCWG meeting number 19, where we're talking about the OCIF spec specification. We were just discussing contributors and authors and kind of clarifying that in this specification. And I think we have a couple of topics to talk about today, and then we can go ahead and get into it.
 
 So the main one for me is I left a bunch of feedback on the 0.3 draft PR. Do we want to go through that? Did you have a chance to look at it? Did you have any questions?
 
@@ -698,7 +694,7 @@ Maybe still a "Hello, world," but maybe like a rectangle.
 
 Maybe two rectangles with text in them, with an arrow pointing between the two of them, and then have, above this, an actual visual of that.
 
-Like, "Here’s the OCHF representation of this very simple canvas that has two rectangles, one arrow, and text."
+Like, "Here’s the OCIF representation of this very simple canvas that has two rectangles, one arrow, and text."
 
 And we should move it even higher—before file structure. Like, just an introductory example as part of the introduction.
 
