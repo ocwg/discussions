@@ -1,0 +1,1 @@
+The OCWG meeting covered plans for a candidate recommendation announcement at Local First Comp, discussed technical issues related to coordinate systems and the scale property, and explored options for bundling assets and managing image scaling within the Okhif file format.

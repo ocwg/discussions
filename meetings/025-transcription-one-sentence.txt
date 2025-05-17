@@ -1,0 +1,1 @@
+The meeting focused on planning the 1.0 candidate recommendation for the Oak format specification, discussing issues like archive bundling versus buffers, scaling and coordinate systems, demo ideas for an upcoming talk, and the need for clearer definitions, better examples, and robust validation/testing tools before the candidate release.
