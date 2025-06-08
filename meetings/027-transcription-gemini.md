@@ -1,0 +1,1 @@
+The Open Canvas Working Group (OCWG) meeting covered the progress and challenges of integrating different canvas applications using the OCIF standard, focusing on color mapping, theme consistency, and extension capabilities to achieve stable import and export functionality between tools like TL Draw and Excalidraw.
