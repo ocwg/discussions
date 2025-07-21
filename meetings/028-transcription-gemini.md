@@ -1,0 +1,1 @@
+The group discussed prioritizing implementation and round-trip testing with Obsidian Canvas, defining a "root node" property, creating a well-structured library for contributions, and clarifying specifications for nested canvases, node transforms, and document-level metadata.

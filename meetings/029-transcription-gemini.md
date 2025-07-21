@@ -1,0 +1,1 @@
+In CWG meeting 29, the group discussed and made progress on implementing new Oakiff features like root nodes and nested canvases, as well as ongoing challenges with defining extension overrides, canvas extensions, theming, color palettes, and Michael's work on the lib utility.
