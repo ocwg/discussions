@@ -1,0 +1,1 @@
+The team discussed recent updates to their specification, focusing on unifying extensions, clarifying the new page node extension, and debating the design and implications of supporting transclusion (reuse of nodes and hierarchies) within the format, with particular attention to its complexity, use cases, and interactions with resources and relations.

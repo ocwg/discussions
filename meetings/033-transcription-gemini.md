@@ -1,0 +1,1 @@
+The group discusses two new additions to the Open Canvas Interchange Format (OCIF) specification: the page node extension and transclusion, focusing on the latter's complexities, potential use cases, and its relationship to file inclusion.
