@@ -1,0 +1,3 @@
+Here is a one-sentence summary, with terminology updated:
+
+The group discussed Max's updated proposal for supporting multiple canvases and transclusion in OCIF, resolved on a simple "viewport"-style live rendering for transcluded nodes, debated best practices for node IDs, and outlined steps—including independent implementations and a thorough spec review—needed to progress OCIF towards a 1.0 release.

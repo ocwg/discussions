@@ -1,0 +1,1 @@
+The OCW meeting discussed Max's transclusion proposal, the possibility of OCIF 1.0, and action items for achieving that milestone, including independent implementations and spec reviews.
